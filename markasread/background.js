@@ -109,6 +109,9 @@ function markAsVisited(atabId) {
 	updateRemoteDictionary();
 }
 
+/**
+ * Following code is for debugging.
+ */
 // chrome.storage.onChanged.addListener(function(changes, namespace) {
 // 	for (key in changes) {
 // 		var storageChange = changes[key];
