@@ -21,8 +21,7 @@
     "unlimitedStorage"
   ],
   "content_scripts": [{
-    "matches": ["*://*/*"],
-    "js": ["changeLinkColor.js"]
+    "matches": ["*://*/*"]
   }],
   "options_page": "options.html"
 }

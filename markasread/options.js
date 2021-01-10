@@ -1,23 +1,15 @@
 var tcDefaults = {
-	changeLinkColor: false,
-	linkColor: 'blue',
 	sites: `github.com`	
 };
 
 function saveOptions() {
-	var changeLinkColor = document.getElementById("changeLinkColor").checked;
-	var linkColor = document.getElementById("linkColor").value;
 	var sites = document.getElementById("sites").value;
 
 	chrome.storage.local.remove([
-		"changeLinkColor",
-		"linkColor",
 		"sites"
 	]);
 	chrome.storage.local.set(
 		{
-			changeLinkColor: changeLinkColor || tcDefaults.changeLinkColor,
-			linkColor: linkColor || tcDefaults.linkColor,
 			sites: sites || tcDefaults.sites
 		},
 		function() {
@@ -45,8 +37,6 @@ function restoreDefaults() {
 
 function restoreOptions() {
 	chrome.storage.local.get(tcDefaults, function(storage) {
-		document.getElementById("changeLinkColor").checked = storage.changeLinkColor != tcDefaults.changeLinkColor ? storage.changeLinkColor : false;
-		document.getElementById("linkColor").value = storage.linkColor != tcDefaults.linkColor ? storage.linkColor : "";
 		document.getElementById("sites").value = storage.sites != tcDefaults.sites ? storage.sites : "";
 	});
 }

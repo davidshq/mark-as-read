@@ -1,6 +1,4 @@
 var tcDefaults = {
-	changeLinkColor: false,
-	linkColor: 'blue',
 	sites: `https://github.com`	
 };
 
@@ -55,9 +53,6 @@ chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 			markAsNotVisited();
 		} else { 
 			markAsVisited();
-		}
-		if (info.status === 'complete') {
-			changeLinkColor(tab);
 		}
 	});
 });
@@ -126,21 +121,6 @@ chrome.runtime.onMessage.addListener(function (msg) {
 		updateRemoteDictionary();
     }
 });
-
-function changeLinkColor(tab) {
-	chrome.storage.local.get(tcDefaults, function(storage) {
-		if(storage.changeLinkColor) {
-			if(containsSite(storage.sites, tab.url)) {
-				var code = `var linkColor="${storage.linkColor}"; var visited = ${JSON.stringify(visited)}`;
-				chrome.tabs.executeScript(tab.id, {
-					code: code
-				}, function() {
-					chrome.tabs.executeScript(tab.id, {file: 'changeLinkColor.js'});
-				});	
-			}
-		}
-	});
-}
 
 function containsSite(sites, url) {
 	return sites.split("\n").filter(site => url.includes(site)).length;
