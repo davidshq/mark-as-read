@@ -1,7 +1,3 @@
-var tcDefaults = {
-	sites: `https://github.com`	
-};
-
 chrome.runtime.onInstalled.addListener(function () {
 	// console.log("onInstalled");
 	fetchRemoteDictionary();
@@ -57,7 +53,13 @@ chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 	});
 });
 
+/**
+ * Get Latest Data for Extension
+ * 
+ * Reference: https://developer.chrome.com/docs/extensions/reference/storage/
+ */
 function fetchRemoteDictionary() {	
+
 	chrome.storage.sync.get("visited", function (obj) {
 		if (obj["visited"] == undefined) {
 			visited = {version: 2};
@@ -73,6 +75,11 @@ function fetchRemoteDictionary() {
 	});
 }
 
+/**
+ * Sync Data for Extension
+ * 
+ * Reference: https://developer.chrome.com/docs/extensions/reference/storage/
+ */
 function updateRemoteDictionary() {	
 	chrome.storage.local.set({"visited": visited}, function() {
 		if (chrome.runtime.error) {
@@ -81,12 +88,21 @@ function updateRemoteDictionary() {
 	});
 }
 
+/**
+ * Mark Site as Not Visited
+ * 
+ * @param {*} atabId 
+ */
 function markAsNotVisited(atabId) {
 	// console.log("markAsNotVisited");
 	chrome.browserAction.setIcon({path: "notvisited.png", tabId: atabId});
 	updateRemoteDictionary();
 }
 
+/**
+ * Mark Site as Visited
+ * @param {*} atabId 
+ */
 function markAsVisited(atabId) {
 	// console.log("markAsVisited");
 	chrome.browserAction.setIcon({path: "visited.png", tabId: atabId });
