@@ -5,10 +5,10 @@ var tcDefaults = {
 function saveOptions() {
 	var sites = document.getElementById("sites").value;
 
-	chrome.storage.local.remove([
+	chrome.storage.sync.remove([
 		"sites"
 	]);
-	chrome.storage.local.set(
+	chrome.storage.sync.set(
 		{
 			sites: sites || tcDefaults.sites
 		},
@@ -24,7 +24,7 @@ function saveOptions() {
 }
 
 function restoreDefaults() {
-	chrome.storage.local.set(tcDefaults, function() {
+	chrome.storage.sync.set(tcDefaults, function() {
 		restoreOptions();
 		// Update status to let user know options were saved.
 		var status = document.getElementById("status");
@@ -36,13 +36,13 @@ function restoreDefaults() {
 }
 
 function restoreOptions() {
-	chrome.storage.local.get(tcDefaults, function(storage) {
+	chrome.storage.sync.get(tcDefaults, function(storage) {
 		document.getElementById("sites").value = storage.sites != tcDefaults.sites ? storage.sites : "";
 	});
 }
 
 function download() {
-	chrome.storage.local.get("visited", function (obj) {
+	chrome.storage.sync.get("visited", function (obj) {
 		var result = JSON.stringify(obj["visited"]);
 		var url = 'data:application/json;base64,' + btoa(result);
 		chrome.downloads.download({

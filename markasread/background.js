@@ -29,7 +29,6 @@ chrome.browserAction.onClicked.addListener(function(tabs) {
 	// Return if the tab is active and in current window.
 	// Reference: https://developer.chrome.com/docs/extensions/reference/tabs/
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
-		console.log(tab[0].url);
 		if (!markedAsRead(tab[0].url)) {
 			addUrl(tab[0].url);
 			markAsVisited(tab[0].id);
@@ -100,7 +99,7 @@ function fetchMarkData() {
  * Reference: https://developer.chrome.com/docs/extensions/reference/storage/
  */
 function updateMarkData() {	
-	chrome.storage.local.set({"visited": visited}, function() {
+	chrome.storage.sync.set({"visited": visited}, function() {
 		if (chrome.runtime.error) {
 			console.log("Runtime error.");
 		}
