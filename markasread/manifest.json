@@ -18,8 +18,6 @@
     "tabs", 
     "storage", 
     "downloads", 
-    "http://*/", 
-    "https://*/", 
     "unlimitedStorage"
   ],
   "content_scripts": [{

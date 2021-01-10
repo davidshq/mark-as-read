@@ -15,6 +15,10 @@ chrome.runtime.onStartup.addListener(function () {
 	fetchRemoteDictionary();
 });
 
+/**
+ * Upon mark as read icon click, add if not already checked.
+ * Remove if already checked.
+ */
 chrome.browserAction.onClicked.addListener(function(tabs) { 
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
 		// console.log(tab[0].url);
