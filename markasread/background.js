@@ -87,7 +87,8 @@ function fetchMarkData() {
 			} else {
 				visited = {version: 2};
 				Object.keys(objVisited).forEach(
-					url => addUrl(url)					);
+					url => addUrl(url)
+					);
 			}
 		}
 	});
