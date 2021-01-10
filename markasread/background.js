@@ -15,20 +15,6 @@ chrome.runtime.onStartup.addListener(function () {
 	fetchRemoteDictionary();
 });
 
-// chrome.browserAction.onClicked.addListener(function(tab) { 
-// 	console.log("onClicked");
-// 	chrome.tabs.getSelected(null, function(tab){
-// 		if (visited[tab.url] == false || visited[tab.url] == undefined) {
-// 			markAsVisited();
-// 			visited[tab.url] = true;
-			
-// 		} else {
-// 			markAsNotVisited();
-// 			visited[tab.url] = false;
-// 		}
-// 	});
-// });
-
 chrome.browserAction.onClicked.addListener(function(tabs) { 
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
 		// console.log(tab[0].url);
