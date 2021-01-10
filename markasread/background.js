@@ -1,8 +1,20 @@
+/**
+ * "Fired when the extension is first installed, when the extension is 
+ * updated to a new version, and when Chrome is updated to a new version."
+ * 
+ * Reference: https://developer.chrome.com/docs/extensions/reference/runtime/
+ */
 chrome.runtime.onInstalled.addListener(function () {
 	// console.log("onInstalled");
 	fetchRemoteDictionary();
 })
 
+/**
+ * "Fired when a profile that has this extension installed first starts up. 
+ * This event is not fired when an incognito profile is started."
+ * 
+ * Reference: https://developer.chrome.com/docs/extensions/reference/runtime/
+ */
 chrome.runtime.onStartup.addListener(function () {
 	// console.log("onStartup");
 	visited = {};
@@ -10,10 +22,12 @@ chrome.runtime.onStartup.addListener(function () {
 });
 
 /**
- * Upon mark as read icon click, add if not already checked.
- * Remove if already checked.
+ * Add/Remove mark as read icon in response to click.
+ * 
  */
 chrome.browserAction.onClicked.addListener(function(tabs) { 
+	// Return if the tab is active and in current window.
+	// Reference: https://developer.chrome.com/docs/extensions/reference/tabs/
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
 		// console.log(tab[0].url);
 		if (!isVisited(tab[0].url)) {
@@ -27,8 +41,7 @@ chrome.browserAction.onClicked.addListener(function(tabs) {
 })
 
 /** 
-* Upon switching to a new tab and on it being activated, we check if this is the tab's
-* first time being loaded, and if so we mark it as not visited
+* On tab activation, change mark as read icon based on database.
 */
 chrome.tabs.onActivated.addListener(function callback(activeInfo) {
 	// console.log("onActivated");
@@ -41,6 +54,7 @@ chrome.tabs.onActivated.addListener(function callback(activeInfo) {
 		}
 	});
 });
+
 
 chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 	// console.log("onActivated");
@@ -101,6 +115,7 @@ function markAsNotVisited(atabId) {
 
 /**
  * Mark Site as Visited
+ * 
  * @param {*} atabId 
  */
 function markAsVisited(atabId) {
@@ -124,6 +139,13 @@ function markAsVisited(atabId) {
 // 	}
 // });
 
+/**
+ * "This event is fired when postMessage is called by the other end of the
+ * port. The first parameter is the message, the second parameter is the port 
+ * that received the message."
+ * 
+ * Reference: https://developer.chrome.com/docs/extensions/reference/runtime/
+ */
 chrome.runtime.onMessage.addListener(function (msg) {
     if (msg.action === 'import') {
 		var data = msg.data;
@@ -140,10 +162,6 @@ chrome.runtime.onMessage.addListener(function (msg) {
 		updateRemoteDictionary();
     }
 });
-
-function containsSite(sites, url) {
-	return sites.split("\n").filter(site => url.includes(site)).length;
-}
 
 function removeUrl(url) {
 	var key = getKey(url);

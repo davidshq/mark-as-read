@@ -1,0 +1,2 @@
+- Move to Manifest V3
+    - Consolidate `page_action` and `browser_ation` into `action`.
