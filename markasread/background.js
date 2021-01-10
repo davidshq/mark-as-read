@@ -99,7 +99,7 @@ function fetchMarkData() {
  * 
  * Reference: https://developer.chrome.com/docs/extensions/reference/storage/
  */
-function updateRemoteDictionary() {	
+function updateMarkData() {	
 	chrome.storage.local.set({"visited": visited}, function() {
 		if (chrome.runtime.error) {
 			console.log("Runtime error.");
@@ -115,7 +115,7 @@ function updateRemoteDictionary() {
 function markAsNotVisited(atabId) {
 	console.log("markAsNotVisited");
 	chrome.browserAction.setIcon({path: "notvisited.png", tabId: atabId});
-	updateRemoteDictionary();
+	updateMarkData();
 }
 
 /**
@@ -126,7 +126,7 @@ function markAsNotVisited(atabId) {
 function markAsVisited(atabId) {
 	console.log("markAsVisited");
 	chrome.browserAction.setIcon({path: "visited.png", tabId: atabId });
-	updateRemoteDictionary();
+	updateMarkData();
 }
 
 /**
@@ -164,7 +164,7 @@ chrome.runtime.onMessage.addListener(function (msg) {
 					
 				}
 			);		
-		updateRemoteDictionary();
+		updateMarkData();
     }
 });
 
