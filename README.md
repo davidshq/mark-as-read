@@ -1,12 +1,10 @@
 # Mark as Read
 
-Imagine every website was an item in a todo list. This extension allows you to tick those items off.
-
-Born out of my own need to keep track of appartment listings when looking to rent a house. 
+Avoid wasting time rereading pages you've already read - mark them as done forever.
 
 ## How to Install
 
-Get the extension [from the Chrome Web Store](https://chrome.google.com/webstore/detail/mark-as-read/hiflhkmicfagennabmnfcnnlpkmidfjj).
+You'll need to be in Developer Mode.
 
 ## How to Use
 
@@ -20,7 +18,7 @@ When you tick it off, the item will look like the following:
 
 The extension will remember the "tick off state" for each page you visit and will show you the right image when you come back.
 
-If you click on the extension icon, it will change from unchecked to checked or viceversa.
+If you click on the extension icon, it will change from unchecked to checked or vice versa.
 
 ## Features
 
