@@ -30,7 +30,7 @@ chrome.browserAction.onClicked.addListener(function(tabs) {
 	// Reference: https://developer.chrome.com/docs/extensions/reference/tabs/
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
 		// console.log(tab[0].url);
-		if (!isVisited(tab[0].url)) {
+		if (!markedAsRead(tab[0].url)) {
 			addUrl(tab[0].url);
 			markAsVisited(tab[0].id);
 		} else {
@@ -47,7 +47,7 @@ chrome.tabs.onActivated.addListener(function callback(activeInfo) {
 	// console.log("onActivated");
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
 		console.log(tab[0].url);
-		if (!isVisited(tab[0].url)) {
+		if (!markedAsRead(tab[0].url)) {
 			markAsNotVisited(tab[0].id);
 		} else { 
 			markAsVisited(tab[0].id);
@@ -59,7 +59,7 @@ chrome.tabs.onActivated.addListener(function callback(activeInfo) {
 chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 	// console.log("onActivated");
 	chrome.tabs.getSelected(null, function(tab){
-		if (!isVisited(tab.url)) {
+		if (!markedAsRead(tab.url)) {
 			markAsNotVisited();
 		} else { 
 			markAsVisited();
@@ -154,7 +154,7 @@ chrome.runtime.onMessage.addListener(function (msg) {
 			.forEach(
 				key => {
 					data[key]
-						.filter(value => !isVisited(key + value))
+						.filter(value => !markedAsRead(key + value))
 						.forEach(value => addUrl(key + value));
 					
 				}
@@ -175,7 +175,12 @@ function removeUrl(url) {
 	}
 }
 
-function isVisited(url) {
+/**
+ * Check if URL has been marked as read
+ * 
+ * @param {*} url 
+ */
+function markedAsRead(url) {
 	if(url) {
 		var key = getKey(url);
 		if(visited[key]) {
