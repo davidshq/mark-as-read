@@ -41,7 +41,7 @@ chrome.browserAction.onClicked.addListener(function(tabs) {
 })
 
 /** 
-* On tab activation, change mark as read icon based on database.
+* On tab activation, change mark as read icon based on status.
 */
 chrome.tabs.onActivated.addListener(function callback(activeInfo) {
 	// console.log("onActivated");
@@ -55,9 +55,14 @@ chrome.tabs.onActivated.addListener(function callback(activeInfo) {
 	});
 });
 
-
+/**
+ * Listen for new urls being loaded in tabs and update mark as read icon appropriately.
+ * 
+ * Reference: https://developer.chrome.com/docs/extensions/reference/tabs/
+ */
 chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 	// console.log("onActivated");
+	// Gets tab active in current window
 	chrome.tabs.getSelected(null, function(tab){
 		if (!markedAsRead(tab.url)) {
 			markAsNotVisited();
@@ -68,12 +73,11 @@ chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 });
 
 /**
- * Get Latest Data for Extension
+ * Pull Latest Data for Extension
  * 
  * Reference: https://developer.chrome.com/docs/extensions/reference/storage/
  */
 function fetchRemoteDictionary() {	
-
 	chrome.storage.sync.get("visited", function (obj) {
 		if (obj["visited"] == undefined) {
 			visited = {version: 2};
@@ -163,6 +167,11 @@ chrome.runtime.onMessage.addListener(function (msg) {
     }
 });
 
+/**
+ * Remove URL from data storage.
+ * 
+ * @param {*} url 
+ */
 function removeUrl(url) {
 	var key = getKey(url);
 	var path = url.replace(key, '');
@@ -191,6 +200,11 @@ function markedAsRead(url) {
 	return false;
 }
 
+/**
+ * Add url to data storage
+ * 
+ * @param {*} url 
+ */
 function addUrl(url){
 	var key = getKey(url);
 	var path = url.replace(key, '');
@@ -201,6 +215,14 @@ function addUrl(url){
 	}
 }
 
+/**
+ * Return URL of current page
+ * 
+ * Reference: https://developer.mozilla.org/en-US/docs/Web/API/URL/origin
+ * 			  https://developer.mozilla.org/en-US/docs/Web/API/URL
+ * 
+ * @param {*} url 
+ */
 function getKey(url) {
 	return new URL(url).origin;
 }
