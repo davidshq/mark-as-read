@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Mark As Read",
-  "version": "0.0.0.7",
+  "version": "0.0.0.8",
   "description": "Mark a page as read by clicking on the extension icon. ",
   "icons": {
     "128": "icon_128.png",
@@ -12,6 +12,14 @@
   },
   "background": {
     "scripts": ["background.js"]
+  },
+  "commands": {
+      "mark_page": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+Z"
+        },
+        "description": "Mark/unmark the current page"
+      }
   },
   "permissions": [
     "activeTab", 

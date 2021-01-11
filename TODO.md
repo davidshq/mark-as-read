@@ -13,3 +13,4 @@ Not at all organized by priority.
     - "Viewed"
 - Add keyboard shortcuts to allow quick marking as read
 - Save time stamp of when marked
+- Deduplicate code for onClicked/onCommand.

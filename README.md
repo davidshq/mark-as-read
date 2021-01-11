@@ -20,6 +20,9 @@ The extension will remember the "tick off state" for each page you visit and wil
 
 If you click on the extension icon, it will change from unchecked to checked or vice versa.
 
+## Keyboard Shortcut
+You can toggle the marked as read functionality on a page using Ctrl+Shift+Z rather than clicking on the icon.
+
 ## Features
 
 - Mark pages as read

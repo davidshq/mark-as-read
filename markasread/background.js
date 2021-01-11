@@ -23,10 +23,9 @@ chrome.runtime.onStartup.addListener(function () {
 
 /**
  * Add/Remove mark as read icon in response to click.
- * 
  */
 chrome.browserAction.onClicked.addListener(function(tabs) { 
-	// Return if the tab is active and in current window.
+	// Return result if the tab is active and in current window.
 	// Reference: https://developer.chrome.com/docs/extensions/reference/tabs/
 	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
 		if (!markedAsRead(tab[0].url)) {
@@ -70,6 +69,24 @@ chrome.tabs.onUpdated.addListener(function callback(activeInfo, info) {
 		}
 	});
 });
+
+/**
+ * Listen for keyboard shortcut, mark/unmark accordingly.
+ * 
+ * Reference: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/commands
+ */
+chrome.commands.onCommand.addListener(function(command) {
+	console.log("onCommand");
+	chrome.tabs.query({'active': true, 'currentWindow': true}, function (tab) {
+		if (!markedAsRead(tab[0].url)) {
+			addUrl(tab[0].url);
+			markAsVisited(tab[0].id);
+		} else {
+			removeUrl(tab[0].url);
+			markAsNotVisited(tab[0].id);
+		}
+	});
+})
 
 /**
  * Pull Latest Data for Extension
