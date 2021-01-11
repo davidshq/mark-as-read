@@ -24,8 +24,13 @@ function openDialog() {
 	document.getElementById('upload').click();
 }
 
+function clearData() {
+	chrome.storage.sync.clear();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById("download").addEventListener("click", download);
 	document.getElementById('upload').addEventListener("change", upload,false);
 	document.getElementById("import").addEventListener('click', openDialog);
+	document.getElementById("clear").addEventListener('click', clearData)
 }, false);
