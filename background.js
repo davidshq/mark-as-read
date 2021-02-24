@@ -8,7 +8,7 @@ remoteStorage.access.claim('markasread', 'rw');
 remoteStorage.caching.enable('/markasread/');
 widget.attach();
 
-const widget = new widget(remoteStorage, { logging: true });
+const widget = new RSWidget(remoteStorage, { logging: true });
 
 chrome.runtime.onInstalled.addListener(function () {
 	console.log("onInstalled");
@@ -166,3 +166,35 @@ function addUrl(url){
 function getKey(url) {
 	return new URL(url).origin;
 }
+
+/**
+ * Log to Console RS state changes
+ */
+remoteStorage.on('ready', () => {
+	console.debug(`RemoteStorage is ready.`);
+})
+remoteStorage.on('not-connected', () => {
+	console.debug(`RemoteStorage is ready but no storage has been connected.`);
+})
+remoteStorage.on('connected', () => {
+	const userAddress = remoteStorage.remote.userAddress;
+	console.debug(`${userAddress} connected their remote storage.`);
+  })
+
+remoteStorage.on('disconnected', () => {
+	console.debug(`RemoteStorage disconnected.`);
+})
+  
+remoteStorage.on('network-offline', () => {
+	console.debug(`We're offline now.`);
+})
+  
+remoteStorage.on('network-online', () => {
+	console.debug(`Hooray, we're back online.`);
+})
+
+remoteStorage.on('error', err => console.log(err));
+
+remoteStorage.on('sync-done', () => {
+	console.log(`All tasks in sync have been completed.`);
+})
