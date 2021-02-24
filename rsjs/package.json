@@ -1,0 +1,42 @@
+{
+  "name": "remotestoragejs",
+  "description": "JavaScript library for integrating remoteStorage",
+  "version": "1.2.3",
+  "private": false,
+  "license": "MIT",
+  "main": "./index.js",
+  "browser": "./release/remotestorage.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/remotestorage/remotestorage.js.git"
+  },
+  "homepage": "https://remotestorage.io",
+  "scripts": {
+    "test": "bash scripts/test-all.sh && npm run lint",
+    "lint": "eslint --quiet src/",
+    "build": "NODE_ENV=production webpack --mode=production",
+    "dev": "webpack -w --mode=development",
+    "postshrinkwrap": "if [ \"`uname`\" = \"Darwin\" ]; then sed -i '' -e 's/http:\\/\\//https:\\/\\//g' package-lock.json; else sed -i -e 's/http:\\/\\//https:\\/\\//g' package-lock.json; fi",
+    "doc": "cd doc; sphinx-autobuild -i '*~' -i '*.sw*' -i '#*#' . _build/html",
+    "preversion": "npm test",
+    "version": "npm run build && git add release/ && npm run update-bower-version && git add bower.json && npm run update-doc-version && git add doc/version.py",
+    "postversion": "git push && git push --tags",
+    "update-bower-version": "bash scripts/update-bower-version.sh",
+    "update-doc-version": "bash scripts/update-doc-version.sh",
+    "autobuild-docs": "cd doc && sphinx-autobuild . _build/html"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.8.0",
+    "jaribu": "^2.2.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "tv4": "^1.3.0",
+    "webfinger.js": "^2.7.0",
+    "xhr2": "^0.2.0"
+  }
+}
