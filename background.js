@@ -1,3 +1,11 @@
+import RemoteStorage from 'remotestoragejs'
+
+const remoteStorage = new RemoteStorage({logging: true});
+
+remoteStorage.access.claim('markasread', 'rw');
+
+remoteStorage.caching.enable('/markasread/')
+
 chrome.runtime.onInstalled.addListener(function () {
 	console.log("onInstalled");
 	fetchMarkData();
