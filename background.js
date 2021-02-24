@@ -1,10 +1,14 @@
 import RemoteStorage from 'remotestoragejs'
+import RSWidget from 'remotestorage-widget'
 
-const remoteStorage = new RemoteStorage({logging: true});
+const remoteStorage = new RemoteStorage({ logging: true });
 
 remoteStorage.access.claim('markasread', 'rw');
 
-remoteStorage.caching.enable('/markasread/')
+remoteStorage.caching.enable('/markasread/');
+widget.attach();
+
+const widget = new widget(remoteStorage, { logging: true });
 
 chrome.runtime.onInstalled.addListener(function () {
 	console.log("onInstalled");
